@@ -1,0 +1,17 @@
+pipeline{
+
+  agent any
+  stages {
+    stage("Git-Creds"){
+        steps {
+          git branch: 'Dev', credentialsId: 'f000e32a-bd80-44b3-a001-493d3c68861a', url: 'https://github.com/yahser/webserver-test.git'
+        }
+    }
+    stage("Code-Deploy"){
+        steps {
+          step([$class: 'AWSCodeDeployPublisher', applicationName: 'apache-server', awsAccessKey: 'AKIAQ35TCPJOMHLBCXOF', awsSecretKey: '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', credentials: 'awsAccessKey', deploymentGroupAppspec: false, deploymentGroupName: 'webserver-DG', excludes: '', iamRoleArn: '', includes: '**', proxyHost: '0', proxyPort: 0, region: 'us-east-1', s3bucket: 'code-deploy-bucket-1-2', s3prefix: 'deployment-logs', subdirectory: '', versionFileName: '', waitForCompletion: false])
+
+        }
+    }
+  }
+}
